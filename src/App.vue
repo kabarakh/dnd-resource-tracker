@@ -3,12 +3,12 @@ import { ref, watch } from 'vue';
 import { useCharactersStore } from './stores/characters';
 import { type Character } from './interfaces/interfaces';
 import { storeToRefs } from 'pinia'
+import SingleCharacter from './components/Character/SingleCharacter.vue';
 
 const charactersStore = useCharactersStore();
 const { characters } = storeToRefs(charactersStore);
 
 const newCharName = ref('');
-const hpChange = ref(0);
 
 const addChar = () => {
   charactersStore.addOrEditCharacter(newCharName.value, {});
@@ -16,6 +16,10 @@ const addChar = () => {
 
 const selectedCharName = ref<string>('');
 const selectedChar = ref<Character | undefined>();
+
+const resetSelectedChar = () => {
+  selectedCharName.value = '';
+}
 
 watch([selectedCharName, characters], () => {
   selectedChar.value = charactersStore.findCharacterByName(selectedCharName.value);
@@ -36,19 +40,6 @@ watch([selectedCharName, characters], () => {
   </template>
 
   <template v-else>
-    <button @click.prevent="() => selectedChar = undefined">back</button>
-    <section>
-      <div>Name: {{ selectedChar.name }}</div>
-      <div>HP: {{ selectedChar.currentHP }}/{{ selectedChar.maxHP }}</div>
-      <div>Armor Class: {{ selectedChar.armorClass }}</div>
-      <div>Passive Perception: {{ selectedChar.passivePerception }}</div>
-
-      <form @submit.prevent="() => {
-        charactersStore.changeCurrentHp(selectedChar!.name, hpChange);
-      }">
-        <input type="number" v-model="hpChange" />
-        <input type="submit" value="Change HP" />
-      </form>
-    </section>
+    <SingleCharacter :character="selectedChar" :resetSelectedCharacter="resetSelectedChar" />
   </template>
 </template>

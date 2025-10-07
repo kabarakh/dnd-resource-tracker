@@ -45,16 +45,46 @@ export const useCharactersStore = defineStore('characters', {
           currentHP: 100,
           maxHP: 100,
           passivePerception: 0,
-          resources: [],
+          resources: [
+            {
+              current: 10,
+              max: 10,
+              name: 'KI Points',
+              rechargeOnRest: 'long',
+            },
+            {
+              current: 3,
+              max: 3,
+              name: 'Chronocharm',
+              rechargeOnRest: 'long',
+            },
+          ],
           specialRechargers: [],
           ...data,
         };
       }
 
-      this.characters = {
-        ...this.characters,
-        [charName]: characterData,
-      };
+      const newCharacters = { ...this.characters };
+
+      if (data.name !== undefined && charName !== data.name) {
+        delete newCharacters[charName];
+        this.characters = {
+          ...newCharacters,
+          [data.name]: characterData,
+        };
+      } else {
+        this.characters = {
+          ...newCharacters,
+          [charName]: characterData,
+        };
+      }
+    },
+    removeCharacter(charName: string) {
+      if (this.characters[charName] !== undefined) {
+        const newCharacterData = { ...this.characters };
+        delete newCharacterData[charName];
+        this.characters = { ...newCharacterData };
+      }
     },
   },
   getters: {

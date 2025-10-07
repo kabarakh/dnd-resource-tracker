@@ -13,6 +13,7 @@ export interface Resource {
   max: number;
   rechargeOnRest: 'short' | 'long';
   name: string;
+  current: number;
 }
 
 export interface Consumer {
