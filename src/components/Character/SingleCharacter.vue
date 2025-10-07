@@ -2,6 +2,7 @@
 import type { Character } from '@/interfaces/interfaces';
 import { useCharactersStore } from '@/stores/characters';
 import { ref } from 'vue';
+import ResourceDots from './ResourceDots.vue';
 
 const charactersStore = useCharactersStore();
 
@@ -37,13 +38,18 @@ const saveCharData = () => {
   <button @click.prevent="resetSelectedCharacter">back</button>
   <section>
     <div>Name: {{ character.name }}</div>
-    <div>HP: {{ character.currentHP }}/{{ character.maxHP }}</div>
+    <div>HP: {{ character.currentHP }}/{{ character.maxHP }} <br />
+      <div class="hp-bar"><span class="current-hp" :style="{
+        width: character.currentHP / character.maxHP * 100 + '%'
+      }"></span></div>
+    </div>
     <div>Armor Class: {{ character.armorClass }}</div>
     <div>Passive Perception: {{ character.passivePerception }}</div>
     <hr />
     <ul>
-      <li v-for="resource, index in character.resources" :key="index">{{ resource.name }}: ({{ resource.current }}/{{
-        resource.max }})</li>
+      <li v-for="resource, index in character.resources" :key="index">
+        <ResourceDots :current="resource.current" :max="resource.max" :name="resource.name" />
+      </li>
     </ul>
     <form @submit.prevent="() => {
       charactersStore.changeCurrentHp(character.name, hpChange);
@@ -68,3 +74,19 @@ const saveCharData = () => {
     <button @click.prevent="() => charactersStore.removeCharacter(character.name)">delete {{ character.name }}</button>
   </section>
 </template>
+
+<style lang="scss" scoped>
+.hp-bar {
+  width: 200px;
+  height: .5rem;
+  border-radius: .25rem;
+  background: red;
+  overflow: hidden;
+}
+
+.current-hp {
+  display: block;
+  height: 100%;
+  background-color: green;
+}
+</style>
