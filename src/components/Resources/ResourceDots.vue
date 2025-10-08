@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import type { Resource } from '@/interfaces/interfaces';
-import { ref } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
 
 const { max, current, name } = defineProps<Partial<Resource>>()
-
 const dots = ref<boolean[]>([]);
 
-for (let i = 0; i<max!; i++) {
-  dots.value.push(current! <= i)
-}
+watchEffect(() => {
+  const newDots: boolean[] = [];
+  for (let i = 0; i < max!; i++) {
+    newDots.push(current! <= i)
+  }
+  dots.value = newDots;
+});
 </script>
 <template>
   <div class="resource">
@@ -17,7 +20,7 @@ for (let i = 0; i<max!; i++) {
       'dot', {
         filled: filled
       }
-  ]"></div>
+    ]"></div>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -35,12 +38,19 @@ for (let i = 0; i<max!; i++) {
   .dot {
     border-radius: 50%;
     border: 1px solid black;
-    height: .7rem;
-    width: .7rem;
+    height: .75rem;
+    width: .75rem;
     margin-right: .5rem;
   }
 
-  .filled {
+  .filled::before {
+    content: ' ';
+    display: block;
+    height: 100%;
+    width: 100%;
+    border: 2px solid white;
+    box-sizing: border-box;
+    border-radius: 50%;
     background: black;
   }
 }

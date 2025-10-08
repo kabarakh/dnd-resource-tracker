@@ -14,6 +14,7 @@ export interface Resource {
   rechargeOnRest: 'short' | 'long';
   name: string;
   current: number;
+  display: 'bar' | 'dots';
 }
 
 export interface Consumer {

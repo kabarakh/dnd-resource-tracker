@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import type { Character } from '@/interfaces/interfaces';
+import type { Character, Resource } from '@/interfaces/interfaces';
 
 export const useCounterStore = defineStore('counter', () => {
   const count = ref(0);
@@ -41,22 +41,35 @@ export const useCharactersStore = defineStore('characters', {
         characterData = {
           name: charName,
           armorClass: 0,
-          consumers: [],
+          consumers: [
+            {
+              name: 'Stealth',
+              cost: 1,
+              resource: 'KI Points',
+            },
+            {
+              name: 'Chronocharm',
+              cost: 1,
+              resource: 'Chronocharm',
+            },
+          ],
           currentHP: 100,
           maxHP: 100,
           passivePerception: 0,
           resources: [
             {
-              current: 10,
+              current: 2,
               max: 10,
               name: 'KI Points',
               rechargeOnRest: 'long',
+              display: 'bar',
             },
             {
-              current: 3,
+              current: 1,
               max: 3,
               name: 'Chronocharm',
-              rechargeOnRest: 'long',
+              rechargeOnRest: 'short',
+              display: 'dots',
             },
           ],
           specialRechargers: [],
@@ -84,6 +97,46 @@ export const useCharactersStore = defineStore('characters', {
         const newCharacterData = { ...this.characters };
         delete newCharacterData[charName];
         this.characters = { ...newCharacterData };
+      }
+    },
+    useConsumer(charName: string, consumerName: string) {
+      if (this.characters[charName] !== undefined) {
+        const newCharacterData = { ...this.characters };
+        const newCharacter = newCharacterData[charName];
+
+        newCharacter.consumers.forEach((consumer) => {
+          if (consumer.name === consumerName) {
+            const newResources = newCharacter.resources.map((resource) => {
+              if (resource.name === consumer.resource) {
+                const newAmount = resource.current - consumer.cost;
+                resource.current = newAmount < 0 ? 0 : newAmount;
+              }
+              return resource;
+            });
+            newCharacter.resources = [...newResources];
+            this.characters = {
+              ...newCharacterData,
+              [charName]: newCharacter,
+            };
+          }
+        });
+      }
+    },
+    rest(charName: string, restType: 'short' | 'long') {
+      if (this.characters[charName] !== undefined) {
+        const newCharacterData = { ...this.characters };
+        const newCharacter = newCharacterData[charName];
+        const newResources = newCharacter.resources.map((resource: Resource) => {
+          if (resource.rechargeOnRest === restType || restType === 'long') {
+            resource.current = resource.max;
+          }
+          return resource;
+        });
+        newCharacter.resources = [...newResources];
+        this.characters = {
+          ...newCharacterData,
+          [charName]: newCharacter,
+        };
       }
     },
   },
