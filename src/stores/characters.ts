@@ -225,6 +225,30 @@ export const useCharactersStore = defineStore(
       return characters.value[charName] ?? undefined;
     };
 
+    const canConsumerBeUsed = (charName: string, consumerName: string) => {
+      const consumer = findConsumer(charName, consumerName);
+      if (consumer !== undefined) {
+        const resource = findResource(charName, consumer.resource);
+        if (resource !== undefined && resource.current >= consumer.cost) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    const canSpecialRechargerBeUsed = (charName: string, specialRechargerName: string) => {
+      const specialRecharger = findSpecialRecharger(charName, specialRechargerName);
+      if (specialRecharger !== undefined) {
+        const resource = findResource(charName, specialRecharger.resourceUsed);
+        if (resource !== undefined && resource.current >= specialRecharger.usedCount) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
     return {
       characters,
       changeCurrentHp,
@@ -234,6 +258,8 @@ export const useCharactersStore = defineStore(
       useConsumer,
       rest,
       findCharacterByName,
+      canConsumerBeUsed,
+      canSpecialRechargerBeUsed
     };
   },
   { persist: true },

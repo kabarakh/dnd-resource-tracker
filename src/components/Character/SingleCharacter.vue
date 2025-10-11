@@ -75,11 +75,17 @@ const saveCharData = () => {
   </section>
   <section>
     <button v-for="consumer, index in character.consumers" :key="index"
-      @click.prevent="() => charactersStore.useConsumer(character.name, consumer.name)">{{ consumer.name }}</button>
+      :disabled="!charactersStore.canConsumerBeUsed(character.name, consumer.name)"
+      @click.prevent="() => charactersStore.useConsumer(character.name, consumer.name)">
+      {{ consumer.name }}
+    </button>
   </section>
-    <section>
+  <section>
     <button v-for="specialRecharger, index in character.specialRechargers" :key="index"
-      @click.prevent="() => charactersStore.useSpecialRecharger(character.name, specialRecharger.name)">{{ specialRecharger.name }}</button>
+      :disabled="!charactersStore.canSpecialRechargerBeUsed(character.name, specialRecharger.name)"
+      @click.prevent="() => charactersStore.useSpecialRecharger(character.name, specialRecharger.name)">
+      {{ specialRecharger.name }}
+    </button>
   </section>
   <section>
     <button @click.prevent="() => charactersStore.rest(character.name, 'short')">Short Rest</button>
