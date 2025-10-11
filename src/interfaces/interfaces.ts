@@ -27,6 +27,6 @@ export interface SpecialRecharge {
   name: string;
   resourceRecharged: Resource['name'];
   rechargeCount: number | 'max';
-  resourceUsed?: Resource['name'];
-  usedCount?: number;
+  resourceUsed: Resource['name'];
+  usedCount: number;
 }
