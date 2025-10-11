@@ -210,6 +210,9 @@ export const useCharactersStore = defineStore(
           }
           return resource;
         });
+        if (restType === 'long') {
+          newCharacter.currentHP = newCharacter.maxHP;
+        }
         newCharacter.resources = [...newResources];
         characters.value = {
           ...newCharacterData,
