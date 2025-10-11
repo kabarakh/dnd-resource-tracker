@@ -43,3 +43,14 @@ watch([selectedCharName, characters], () => {
     <SingleCharacter :character="selectedChar" :resetSelectedCharacter="resetSelectedChar" />
   </template>
 </template>
+
+<style lang="scss">
+section {
+  padding: 1rem;
+  border-bottom: 1px solid gray;
+}
+
+button {
+  margin-right: .5rem;
+}
+</style>

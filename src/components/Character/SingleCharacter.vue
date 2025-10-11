@@ -50,7 +50,8 @@ const saveCharData = () => {
     </div>
     <div>Armor Class: {{ character.armorClass }}</div>
     <div>Passive Perception: {{ character.passivePerception }}</div>
-    <hr />
+  </section>
+  <section>
     <ul>
       <li v-for="resource, index in character.resources" :key="index">
         <template v-if="resource.display === 'dots'">
@@ -62,7 +63,6 @@ const saveCharData = () => {
       </li>
     </ul>
   </section>
-  <section></section>
   <section v-if="characterFormData">
     <form @submit.prevent="saveCharData">
       <label>Name: <input type="text" v-model="characterFormData.name" /></label>
@@ -76,6 +76,10 @@ const saveCharData = () => {
   <section>
     <button v-for="consumer, index in character.consumers" :key="index"
       @click.prevent="() => charactersStore.useConsumer(character.name, consumer.name)">{{ consumer.name }}</button>
+  </section>
+    <section>
+    <button v-for="specialRecharger, index in character.specialRechargers" :key="index"
+      @click.prevent="() => charactersStore.useSpecialRecharger(character.name, specialRecharger.name)">{{ specialRecharger.name }}</button>
   </section>
   <section>
     <button @click.prevent="() => charactersStore.rest(character.name, 'short')">Short Rest</button>
