@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import type { Character, Resource } from '@/interfaces/interfaces';
 
@@ -235,7 +235,7 @@ export const useCharactersStore = defineStore(
       }
 
       return false;
-    }
+    };
 
     const canSpecialRechargerBeUsed = (charName: string, specialRechargerName: string) => {
       const specialRecharger = findSpecialRecharger(charName, specialRechargerName);
@@ -247,7 +247,7 @@ export const useCharactersStore = defineStore(
       }
 
       return false;
-    }
+    };
 
     return {
       characters,
@@ -259,7 +259,7 @@ export const useCharactersStore = defineStore(
       rest,
       findCharacterByName,
       canConsumerBeUsed,
-      canSpecialRechargerBeUsed
+      canSpecialRechargerBeUsed,
     };
   },
   { persist: true },
