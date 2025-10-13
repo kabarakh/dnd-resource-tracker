@@ -1,24 +1,14 @@
 <script setup lang="ts">
 import type { Resource } from '@/interfaces/interfaces';
-import { ref, watch, watchEffect } from 'vue';
 
 const { max, current, name } = defineProps<Partial<Resource>>()
-const dots = ref<boolean[]>([]);
-
-watchEffect(() => {
-  const newDots: boolean[] = [];
-  for (let i = 0; i < max!; i++) {
-    newDots.push(current! <= i)
-  }
-  dots.value = newDots;
-});
 </script>
 <template>
   <div class="resource">
     <div class="name">{{ name }}: </div>
-    <div v-for="filled, index in dots" :key="index" :class="[
+    <div v-for="index in max" :key="index" :class="[
       'dot', {
-        filled: filled
+        filled: index > current!
       }
     ]"></div>
   </div>
