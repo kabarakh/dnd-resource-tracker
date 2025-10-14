@@ -12,10 +12,12 @@ const newCharName = ref('');
 
 const addChar = () => {
   charactersStore.addOrEditCharacter(newCharName.value, {});
+  newCharName.value = '';
 }
 
 const selectedCharName = ref<string>('');
 const selectedChar = ref<Character | undefined>();
+const existingChar = ref<Character | undefined>();
 
 const resetSelectedChar = () => {
   selectedCharName.value = '';
@@ -23,6 +25,10 @@ const resetSelectedChar = () => {
 
 watch([selectedCharName, characters], () => {
   selectedChar.value = charactersStore.findCharacterByName(selectedCharName.value);
+});
+
+watch([newCharName, characters], () => {
+  existingChar.value = charactersStore.findCharacterByName(newCharName.value);
 });
 
 </script>
@@ -35,7 +41,7 @@ watch([selectedCharName, characters], () => {
 
     <form @submit.prevent="addChar">
       <input v-model="newCharName" />
-      <input type="submit" value="New Char" />
+      <input :disabled="newCharName.length === 0 || existingChar !== undefined" type="submit" value="New Char" />
     </form>
   </template>
 
