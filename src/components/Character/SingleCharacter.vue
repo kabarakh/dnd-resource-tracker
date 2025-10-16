@@ -4,10 +4,15 @@ import { useCharactersStore } from '@/stores/characters';
 import { ref } from 'vue';
 import ResourceDots from '../Resources/ResourceDots.vue';
 import ResourceBar from '../Resources/ResourceBar.vue';
+import ConsumerButton from '../Buttons/ConsumerButton.vue';
+import RechargerButton from '../Buttons/RechargerButton.vue';
 
 const charactersStore = useCharactersStore();
 
-const { character, resetSelectedCharacter } = defineProps<{ character: Character, resetSelectedCharacter: () => void }>()
+const { character, resetSelectedCharacter } = defineProps<{
+  character: Character;
+  resetSelectedCharacter: () => void;
+}>();
 
 const hpChange = ref(0);
 const characterFormData = ref<Partial<Character> | undefined>();
@@ -19,20 +24,19 @@ const editStats = () => {
       armorClass: character.armorClass,
       currentHP: character.currentHP,
       maxHP: character.maxHP,
-      passivePerception: character.passivePerception
-    }
+      passivePerception: character.passivePerception,
+    };
   } else {
     characterFormData.value = undefined;
   }
-}
+};
 
 const saveCharData = () => {
   if (characterFormData.value !== undefined) {
-    charactersStore.addOrEditCharacter(character.name, characterFormData.value)
+    charactersStore.addOrEditCharacter(character.name, characterFormData.value);
     characterFormData.value = undefined;
   }
-}
-
+};
 </script>
 
 <template>
@@ -41,9 +45,11 @@ const saveCharData = () => {
     <div>Name: {{ character.name }}</div>
     <div>
       <ResourceBar :current="character.currentHP" :max="character.maxHP" name="HP" />
-      <form @submit.prevent="() => {
-        charactersStore.changeCurrentHp(character.name, hpChange);
-      }">
+      <form @submit.prevent="
+        () => {
+          charactersStore.changeCurrentHp(character.name, hpChange);
+        }
+      ">
         <input type="number" v-model="hpChange" />
         <input type="submit" value="Change HP" />
       </form>
@@ -53,7 +59,7 @@ const saveCharData = () => {
   </section>
   <section>
     <ul>
-      <li v-for="resource, index in character.resources" :key="index">
+      <li v-for="(resource, index) in character.resources" :key="index">
         <template v-if="resource.display === 'dots'">
           <ResourceDots :current="resource.current" :max="resource.max" :name="resource.name" />
         </template>
@@ -73,19 +79,13 @@ const saveCharData = () => {
       <button type="submit">Save</button>
     </form>
   </section>
-  <section>
-    <button v-for="consumer, index in character.consumers" :key="index"
-      :disabled="!charactersStore.canConsumerBeUsed(character.name, consumer.name)"
-      @click.prevent="() => charactersStore.useConsumer(character.name, consumer.name)">
-      {{ consumer.name }}
-    </button>
+  <section class="flex flex-row">
+    <ConsumerButton v-for="(consumer, index) in character.consumers" :key="index" :characterName="character.name"
+      :consumer="consumer" />
   </section>
-  <section>
-    <button v-for="specialRecharger, index in character.specialRechargers" :key="index"
-      :disabled="!charactersStore.canSpecialRechargerBeUsed(character.name, specialRecharger.name)"
-      @click.prevent="() => charactersStore.useSpecialRecharger(character.name, specialRecharger.name)">
-      {{ specialRecharger.name }}
-    </button>
+  <section class="flex flex-row">
+    <RechargerButton v-for="(recharger, index) in character.specialRechargers" :key="index"
+      :characterName="character.name" :recharger="recharger" />
   </section>
   <section>
     <button @click.prevent="() => charactersStore.rest(character.name, 'short')">Short Rest</button>
@@ -97,3 +97,13 @@ const saveCharData = () => {
     <button @click.prevent="() => charactersStore.removeCharacter(character.name)">delete {{ character.name }}</button>
   </section>
 </template>
+
+<style lang="scss" scoped>
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+</style>

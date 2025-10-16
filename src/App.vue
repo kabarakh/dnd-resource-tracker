@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue';
 import { useCharactersStore } from './stores/characters';
 import { type Character } from './interfaces/interfaces';
-import { storeToRefs } from 'pinia'
+import { storeToRefs } from 'pinia';
 import SingleCharacter from './components/Character/SingleCharacter.vue';
 
 const charactersStore = useCharactersStore();
@@ -13,7 +13,7 @@ const newCharName = ref('');
 const addChar = () => {
   charactersStore.addOrEditCharacter(newCharName.value, {});
   newCharName.value = '';
-}
+};
 
 const selectedCharName = ref<string>('');
 const selectedChar = ref<Character | undefined>();
@@ -21,7 +21,7 @@ const existingChar = ref<Character | undefined>();
 
 const resetSelectedChar = () => {
   selectedCharName.value = '';
-}
+};
 
 watch([selectedCharName, characters], () => {
   selectedChar.value = charactersStore.findCharacterByName(selectedCharName.value);
@@ -30,13 +30,12 @@ watch([selectedCharName, characters], () => {
 watch([newCharName, characters], () => {
   existingChar.value = charactersStore.findCharacterByName(newCharName.value);
 });
-
 </script>
 
 <template>
   <template v-if="selectedChar === undefined">
     <div v-for="character in characters" :key="character.name">
-      <button @click.prevent="() => selectedCharName = character.name">{{ character.name }}</button>
+      <button @click.prevent="() => (selectedCharName = character.name)">{{ character.name }}</button>
     </div>
 
     <form @submit.prevent="addChar">
@@ -57,6 +56,6 @@ section {
 }
 
 button {
-  margin-right: .5rem;
+  margin-right: 0.5rem;
 }
 </style>
