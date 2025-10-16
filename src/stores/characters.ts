@@ -124,26 +124,6 @@ export const useCharactersStore = defineStore(
       }
     };
 
-    // Internal helper finders (non-exported)
-    const getCharacter = (charName: string) => {
-      return characters.value[charName] ?? undefined;
-    };
-    const findResource = (charName: string, resourceName: string) => {
-      return getCharacter(charName)?.resources.find((r) => {
-        return r.name === resourceName;
-      });
-    };
-    const findConsumer = (charName: string, consumerName: string) => {
-      return getCharacter(charName)?.consumers.find((c) => {
-        return c.name === consumerName;
-      });
-    };
-    const findSpecialRecharger = (charName: string, specialRechargerName: string) => {
-      return getCharacter(charName)?.specialRechargers.find((s) => {
-        return s.name === specialRechargerName;
-      });
-    };
-
     const useSpecialRecharger = (charName: string, specialRechargerName: string) => {
       const char = findCharacterByName(charName);
       if (char === undefined) {
@@ -247,6 +227,26 @@ export const useCharactersStore = defineStore(
       }
 
       return false;
+    };
+
+    // Internal helper finders (non-exported)
+    const getCharacter = (charName: string) => {
+      return characters.value[charName] ?? undefined;
+    };
+    const findResource = (charName: string, resourceName: string) => {
+      return getCharacter(charName)?.resources.find((r) => {
+        return r.name === resourceName;
+      });
+    };
+    const findConsumer = (charName: string, consumerName: string) => {
+      return getCharacter(charName)?.consumers.find((c) => {
+        return c.name === consumerName;
+      });
+    };
+    const findSpecialRecharger = (charName: string, specialRechargerName: string) => {
+      return getCharacter(charName)?.specialRechargers.find((s) => {
+        return s.name === specialRechargerName;
+      });
     };
 
     return {
