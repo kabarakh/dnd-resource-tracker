@@ -4,6 +4,7 @@ import { useCharactersStore } from './stores/characters';
 import { type Character } from './interfaces/interfaces';
 import { storeToRefs } from 'pinia';
 import SingleCharacter from './components/Character/SingleCharacter.vue';
+import { useTitle } from '@vueuse/core';
 
 const charactersStore = useCharactersStore();
 const { characters } = storeToRefs(charactersStore);
@@ -30,6 +31,8 @@ watch([selectedCharName, characters], () => {
 watch([newCharName, characters], () => {
   existingChar.value = charactersStore.findCharacterByName(newCharName.value);
 });
+
+useTitle('DnD Resource Tracker');
 </script>
 
 <template>

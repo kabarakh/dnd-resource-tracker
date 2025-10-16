@@ -2,10 +2,8 @@
 import type { Character } from '@/interfaces/interfaces';
 import { useCharactersStore } from '@/stores/characters';
 import { ref } from 'vue';
-import ResourceDots from '../Resources/ResourceDots.vue';
-import ResourceBar from '../Resources/ResourceBar.vue';
-import ConsumerButton from '../Buttons/ConsumerButton.vue';
-import RechargerButton from '../Buttons/RechargerButton.vue';
+import ViewCharacter from './Single/ViewCharacter.vue';
+import EditCharacter from './Single/EditCharacter.vue';
 
 const charactersStore = useCharactersStore();
 
@@ -14,7 +12,6 @@ const { character, resetSelectedCharacter } = defineProps<{
   resetSelectedCharacter: () => void;
 }>();
 
-const hpChange = ref(0);
 const characterFormData = ref<Partial<Character> | undefined>();
 
 const editStats = () => {
@@ -31,69 +28,19 @@ const editStats = () => {
   }
 };
 
-const saveCharData = () => {
-  if (characterFormData.value !== undefined) {
-    charactersStore.addOrEditCharacter(character.name, characterFormData.value);
-    characterFormData.value = undefined;
-  }
-};
+
 </script>
 
 <template>
-  <button @click.prevent="resetSelectedCharacter">back</button>
+  <button @click.prevent="resetSelectedCharacter">back to list</button>
+  <ViewCharacter :character="character" v-if="characterFormData === undefined" />
+  <EditCharacter :characterFormData="characterFormData" :originalCharacterName="character.name"
+    :resetCharacterFormData="editStats" v-else />
+
   <section>
-    <div>Name: {{ character.name }}</div>
-    <div>
-      <ResourceBar :current="character.currentHP" :max="character.maxHP" name="HP" />
-      <form @submit.prevent="
-        () => {
-          charactersStore.changeCurrentHp(character.name, hpChange);
-        }
-      ">
-        <input type="number" v-model="hpChange" />
-        <input type="submit" value="Change HP" />
-      </form>
-    </div>
-    <div>Armor Class: {{ character.armorClass }}</div>
-    <div>Passive Perception: {{ character.passivePerception }}</div>
-  </section>
-  <section>
-    <ul>
-      <li v-for="(resource, index) in character.resources" :key="index">
-        <template v-if="resource.display === 'dots'">
-          <ResourceDots :current="resource.current" :max="resource.max" :name="resource.name" />
-        </template>
-        <template v-if="resource.display === 'bar'">
-          <ResourceBar :current="resource.current" :max="resource.max" :name="resource.name" />
-        </template>
-      </li>
-    </ul>
-  </section>
-  <section v-if="characterFormData">
-    <form @submit.prevent="saveCharData">
-      <label>Name: <input type="text" v-model="characterFormData.name" /></label>
-      <label>AC: <input type="text" v-model="characterFormData.armorClass" /></label>
-      <label>Current HP: <input type="text" v-model="characterFormData.currentHP" /></label>
-      <label>Max HP: <input type="text" v-model="characterFormData.maxHP" /></label>
-      <label>Perception: <input type="text" v-model="characterFormData.passivePerception" /></label>
-      <button type="submit">Save</button>
-    </form>
-  </section>
-  <section class="flex flex-row">
-    <ConsumerButton v-for="(consumer, index) in character.consumers" :key="index" :characterName="character.name"
-      :consumer="consumer" />
-  </section>
-  <section class="flex flex-row">
-    <RechargerButton v-for="(recharger, index) in character.specialRechargers" :key="index"
-      :characterName="character.name" :recharger="recharger" />
-  </section>
-  <section>
-    <button @click.prevent="() => charactersStore.rest(character.name, 'short')">Short Rest</button>
-    <button @click.prevent="() => charactersStore.rest(character.name, 'long')">Long Rest</button>
-  </section>
-  <section>
-    <button @click.prevent="resetSelectedCharacter">back</button>
-    <button @click.prevent="editStats">edit {{ character.name }}</button>
+    <button @click.prevent="resetSelectedCharacter">back to list</button>
+    <button @click.prevent="editStats" v-if="characterFormData === undefined">edit {{ character.name }}</button>
+    <button @click.prevent="editStats" v-else>cancel</button>
     <button @click.prevent="() => charactersStore.removeCharacter(character.name)">delete {{ character.name }}</button>
   </section>
 </template>
