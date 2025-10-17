@@ -28,74 +28,12 @@ export const useCharactersStore = defineStore(
         characterData = {
           name: charName,
           armorClass: 0,
-          consumers: [
-            {
-              name: 'Spell Level 1',
-              cost: 1,
-              resource: 'Spell Level 1',
-            },
-            {
-              name: 'Spell Level 2',
-              cost: 1,
-              resource: 'Spell Level 2',
-            },
-          ],
-          currentHP: 20,
-          maxHP: 20,
+          consumers: [],
+          currentHP: 1,
+          maxHP: 1,
           passivePerception: 0,
-          resources: [
-            {
-              name: 'Sorcery Points',
-              current: 3,
-              max: 3,
-              display: 'dots',
-              rechargeOnRest: 'long',
-            },
-            {
-              current: 4,
-              max: 4,
-              name: 'Spell Level 1',
-              rechargeOnRest: 'long',
-              display: 'dots',
-            },
-            {
-              current: 2,
-              max: 2,
-              name: 'Spell Level 2',
-              rechargeOnRest: 'long',
-              display: 'dots',
-            },
-          ],
-          specialRechargers: [
-            {
-              name: 'Font of Magic Level 1',
-              rechargeCount: 1,
-              resourceRecharged: 'Spell Level 1',
-              resourceUsed: 'Sorcery Points',
-              usedCount: 2,
-            },
-            {
-              name: 'Font of Magic Level 2',
-              rechargeCount: 1,
-              resourceRecharged: 'Spell Level 2',
-              resourceUsed: 'Sorcery Points',
-              usedCount: 3,
-            },
-            {
-              name: 'Recharge Sorcery Points from Level 1',
-              rechargeCount: 2,
-              resourceUsed: 'Spell Level 1',
-              resourceRecharged: 'Sorcery Points',
-              usedCount: 1,
-            },
-            {
-              name: 'Recharge Sorcery Points from Level 2',
-              rechargeCount: 3,
-              resourceUsed: 'Spell Level 2',
-              resourceRecharged: 'Sorcery Points',
-              usedCount: 1,
-            },
-          ],
+          resources: [],
+          specialRechargers: [],
           ...data,
         };
       }

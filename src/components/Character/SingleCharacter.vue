@@ -22,15 +22,17 @@ const editStats = () => {
     characterFormData.value = undefined;
   }
 };
-
-
 </script>
 
 <template>
   <button @click.prevent="resetSelectedCharacter">back to list</button>
   <ViewCharacter :character="character" v-if="characterFormData === undefined" />
-  <EditCharacter :characterFormData="characterFormData" :originalCharacterName="character.name"
-    :resetCharacterFormData="editStats" v-else />
+  <EditCharacter
+    :characterFormData="characterFormData"
+    :originalCharacterName="character.name"
+    :resetCharacterFormData="editStats"
+    v-else
+  />
 
   <section>
     <button @click.prevent="resetSelectedCharacter">back to list</button>

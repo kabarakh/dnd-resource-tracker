@@ -9,12 +9,11 @@ import ResourceDots from '@/components/Resources/ResourceDots.vue';
 import { useTitle } from '@vueuse/core';
 
 const charactersStore = useCharactersStore();
-const { character } = defineProps<{ character: Character }>()
+const { character } = defineProps<{ character: Character }>();
 
 const hpChange = ref(0);
 
 useTitle(character.name + ' - DnD Resource Tracker');
-
 </script>
 
 <template>
@@ -22,11 +21,13 @@ useTitle(character.name + ' - DnD Resource Tracker');
     <div>Name: {{ character.name }}</div>
     <div>
       <ResourceBar :current="character.currentHP" :max="character.maxHP" name="HP" />
-      <form @submit.prevent="
-        () => {
-          charactersStore.changeCurrentHp(character.name, hpChange);
-        }
-      ">
+      <form
+        @submit.prevent="
+          () => {
+            charactersStore.changeCurrentHp(character.name, hpChange);
+          }
+        "
+      >
         <input type="number" v-model="hpChange" />
         <input type="submit" value="Change HP" />
       </form>
@@ -47,12 +48,20 @@ useTitle(character.name + ' - DnD Resource Tracker');
     </ul>
   </section>
   <section class="flex flex-row">
-    <ConsumerButton v-for="(consumer, index) in character.consumers" :key="index" :characterName="character.name"
-      :consumer="consumer" />
+    <ConsumerButton
+      v-for="(consumer, index) in character.consumers"
+      :key="index"
+      :characterName="character.name"
+      :consumer="consumer"
+    />
   </section>
   <section class="flex flex-row">
-    <RechargerButton v-for="(recharger, index) in character.specialRechargers" :key="index"
-      :characterName="character.name" :recharger="recharger" />
+    <RechargerButton
+      v-for="(recharger, index) in character.specialRechargers"
+      :key="index"
+      :characterName="character.name"
+      :recharger="recharger"
+    />
   </section>
   <section>
     <button @click.prevent="() => charactersStore.rest(character.name, 'short')">Short Rest</button>
