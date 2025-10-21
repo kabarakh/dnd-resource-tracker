@@ -71,10 +71,10 @@ useTitle('Edit ' + originalCharacterName + ' - DnD Resource Tracker');
   <form @submit.prevent="saveCharData">
     <section>
       <label>Name: <input type="text" v-model="localCharacterFormData.name" /></label>
-      <label>AC: <input type="text" v-model="localCharacterFormData.armorClass" /></label>
-      <label>Max HP: <input type="text" v-model="localCharacterFormData.maxHP" /></label>
-      <label>Current HP: <input type="text" v-model="localCharacterFormData.currentHP" /></label>
-      <label>Perception: <input type="text" v-model="localCharacterFormData.passivePerception" /></label>
+      <label>AC: <input type="number" v-model="localCharacterFormData.armorClass" /></label>
+      <label>Max HP: <input type="number" v-model="localCharacterFormData.maxHP" /></label>
+      <label>Current HP: <input type="number" v-model="localCharacterFormData.currentHP" /></label>
+      <label>Perception: <input type="number" v-model="localCharacterFormData.passivePerception" /></label>
     </section>
     <section>
       <div class="help-text">Drag and drop at the handle to reorder</div>
