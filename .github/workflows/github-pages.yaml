@@ -17,12 +17,17 @@ jobs:
         with:
           fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod
           lfs: true # Fetch large files
-
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '24'
+      - run: npm ci
+      - run: npm build
       - name: 🚀 Deploy to `gh-pages` branch
         uses: peaceiris/actions-gh-pages@v3.9.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          publish_dir: ./dist
           publish_branch: gh-pages
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
