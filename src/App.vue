@@ -50,6 +50,12 @@ useTitle('DnD Resource Tracker');
   <template v-else>
     <SingleCharacter :character="selectedChar" :resetSelectedCharacter="resetSelectedChar" />
   </template>
+
+  <footer>
+    <a href="mailto:github@kabarakh.de?subject=[DnD Resource Tracker] Issue">Report an issue</a>
+    <a href="https://github.com/kabarakh/dnd-resource-tracker" target="_blank">Source Code</a>
+    <a href="/imprint">Imprint</a>
+  </footer>
 </template>
 
 <style lang="scss">
@@ -60,5 +66,19 @@ section {
 
 button {
   margin-right: 0.5rem;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+
+  >* {
+    margin-bottom: .5rem;
+  }
 }
 </style>
