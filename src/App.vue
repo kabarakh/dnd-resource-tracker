@@ -6,6 +6,9 @@ import { storeToRefs } from 'pinia';
 import SingleCharacter from './components/Character/SingleCharacter.vue';
 import { useTitle } from '@vueuse/core';
 
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
+
 const charactersStore = useCharactersStore();
 const { characters } = storeToRefs(charactersStore);
 
@@ -33,9 +36,23 @@ watch([newCharName, characters], () => {
 });
 
 useTitle('DnD Resource Tracker');
+
+const changeLocale = (event: ChangeEvent) => {
+  console.log({bla, blubb, foo, bar})
+}
 </script>
 
 <template>
+  <header>
+    <h1>DnD Resource Tracker</h1>
+    <label>
+      {{ t('app.language') }}
+      <select @change="changeLocale">
+      <option value="en">English</option>
+      <option value="de">Deutsch</option>
+    </select>
+    </label>
+  </header>
   <main>
     <template v-if="selectedChar === undefined">
       <div v-for="character in characters" :key="character.name">
@@ -44,7 +61,7 @@ useTitle('DnD Resource Tracker');
 
       <form @submit.prevent="addChar">
         <input v-model="newCharName" />
-        <input :disabled="newCharName.length === 0 || existingChar !== undefined" type="submit" value="New Char" />
+        <input :disabled="newCharName.length === 0 || existingChar !== undefined" type="submit" :value="t('app.newCharacter')" />
       </form>
     </template>
 
@@ -54,9 +71,9 @@ useTitle('DnD Resource Tracker');
   </main>
 
   <footer>
-    <a href="mailto:github@kabarakh.de?subject=[DnD Resource Tracker] Issue">Report an issue</a>
-    <a href="https://github.com/kabarakh/dnd-resource-tracker" target="_blank">Source Code</a>
-    <a href="/imprint">Imprint</a>
+    <a href="mailto:github@kabarakh.de?subject=[DnD Resource Tracker] Issue">{{ t('footer.reportIssue') }}</a>
+    <a href="https://github.com/kabarakh/dnd-resource-tracker" target="_blank">{{ t('footer.source') }}</a>
+    <a href="/imprint">{{t('footer.imprint')}}</a>
   </footer>
 </template>
 

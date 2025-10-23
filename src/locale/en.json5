@@ -1,0 +1,26 @@
+{
+  app: {
+    newCharacter: 'New character',
+    language: 'Language',
+    backToList: 'Back to list',
+    editCharacter: 'Edit {character}',
+    deleteCharacter: 'Delete {character}',
+    cancel: 'Cancel',
+  },
+  character: {
+    name: 'Name',
+    hp: 'HP',
+    ac: 'Armor Class',
+    perception: 'Passive Perception',
+    changeHp: 'Change @:character.hp',
+  },
+  rest: {
+    short: 'Short rest',
+    long: 'Long rest',
+  },
+  footer: {
+    reportIssue: 'Report an issue',
+    source: 'Source code',
+    imprint: 'Imprint',
+  },
+}

@@ -1,0 +1,26 @@
+{
+  app: {
+    newCharacter: 'Neuer Character',
+    language: 'Sprache',
+    backToList: 'Zurück zur Liste',
+    editCharacter: '{character} editieren',
+    deleteCharacter: '{character} löschen',
+    cancel: 'Abbrechen',
+  },
+  character: {
+    name: 'Name',
+    hp: 'Lebenspunkte',
+    ac: 'Rüstungsklasse',
+    perception: 'Passive Wahrnehmung',
+    changeHp: '@:character.hp ändern',
+  },
+  rest: {
+    short: 'Kurze Rast',
+    long: 'Lange Rast',
+  },
+  footer: {
+    reportIssue: 'Fehler melden',
+    source: 'Quellcode',
+    imprint: 'Impressum',
+  },
+}

@@ -23,7 +23,8 @@
     "vue": "^3.5.18",
     "vue-draggable-plus": "^0.6.0",
     "@vueuse/core": "^13.9.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "vue-i18n": "^11.1.12"
   },
   "devDependencies": {
     "@prettier/plugin-oxc": "^0.0.4",
@@ -45,6 +46,7 @@
     "typescript": "~5.8.0",
     "vite": "npm:rolldown-vite@latest",
     "vite-plugin-vue-devtools": "^8.0.0",
-    "vue-tsc": "^3.0.4"
+    "vue-tsc": "^3.0.4",
+    "vite-plugin-json5": "^1.2.0"
   }
 }

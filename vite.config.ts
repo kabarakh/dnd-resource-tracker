@@ -1,12 +1,12 @@
 import { fileURLToPath, URL } from 'node:url';
-
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueDevTools from 'vite-plugin-vue-devtools';
+import json5Plugin from 'vite-plugin-json5'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueDevTools()],
+  plugins: [vue(), vueDevTools(), json5Plugin()],
   base: '/dnd-resource-tracker/',
   resolve: {
     alias: {

@@ -22,10 +22,13 @@ const editStats = () => {
     characterFormData.value = undefined;
   }
 };
+
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 </script>
 
 <template>
-  <button @click.prevent="resetSelectedCharacter">back to list</button>
+  <button @click.prevent="resetSelectedCharacter">{{ t('app.backToList') }}</button>
   <ViewCharacter :character="character" v-if="characterFormData === undefined" />
   <EditCharacter
     :characterFormData="characterFormData"
@@ -35,10 +38,10 @@ const editStats = () => {
   />
 
   <section>
-    <button @click.prevent="resetSelectedCharacter">back to list</button>
-    <button @click.prevent="editStats" v-if="characterFormData === undefined">edit {{ character.name }}</button>
-    <button @click.prevent="editStats" v-else>cancel</button>
-    <button @click.prevent="() => charactersStore.removeCharacter(character.name)">delete {{ character.name }}</button>
+    <button @click.prevent="resetSelectedCharacter">{{ t('app.backToList') }}</button>
+    <button @click.prevent="editStats" v-if="characterFormData === undefined">{{ t('app.editCharacter', {character: character.name}) }}</button>
+    <button @click.prevent="editStats" v-else>{{ t('app.cancel') }}</button>
+    <button @click.prevent="() => charactersStore.removeCharacter(character.name)">{{ t('app.deleteCharacter', {character: character.name}) }}</button>
   </section>
 </template>
 

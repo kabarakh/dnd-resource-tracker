@@ -66,6 +66,9 @@ const deleteRecharger = (index: number) => {
 };
 
 useTitle('Edit ' + originalCharacterName + ' - DnD Resource Tracker');
+
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 </script>
 <template>
   <form @submit.prevent="saveCharData">
