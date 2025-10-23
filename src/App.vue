@@ -36,20 +36,22 @@ useTitle('DnD Resource Tracker');
 </script>
 
 <template>
-  <template v-if="selectedChar === undefined">
-    <div v-for="character in characters" :key="character.name">
-      <button @click.prevent="() => (selectedCharName = character.name)">{{ character.name }}</button>
-    </div>
+  <main>
+    <template v-if="selectedChar === undefined">
+      <div v-for="character in characters" :key="character.name">
+        <button @click.prevent="() => (selectedCharName = character.name)">{{ character.name }}</button>
+      </div>
 
-    <form @submit.prevent="addChar">
-      <input v-model="newCharName" />
-      <input :disabled="newCharName.length === 0 || existingChar !== undefined" type="submit" value="New Char" />
-    </form>
-  </template>
+      <form @submit.prevent="addChar">
+        <input v-model="newCharName" />
+        <input :disabled="newCharName.length === 0 || existingChar !== undefined" type="submit" value="New Char" />
+      </form>
+    </template>
 
-  <template v-else>
-    <SingleCharacter :character="selectedChar" :resetSelectedCharacter="resetSelectedChar" />
-  </template>
+    <template v-else>
+      <SingleCharacter :character="selectedChar" :resetSelectedCharacter="resetSelectedChar" />
+    </template>
+  </main>
 
   <footer>
     <a href="mailto:github@kabarakh.de?subject=[DnD Resource Tracker] Issue">Report an issue</a>
@@ -68,6 +70,10 @@ button {
   margin-right: 0.5rem;
 }
 
+main {
+  margin-bottom: 6.5rem;
+}
+
 footer {
   position: fixed;
   bottom: 0;
@@ -76,6 +82,9 @@ footer {
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  border-top: 2px solid gray;
+  background-color: white;
+
 
   >* {
     margin-bottom: .5rem;
