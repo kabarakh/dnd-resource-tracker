@@ -1,0 +1,68 @@
+{
+  app: {
+    newCharacter: 'New character',
+    language: 'Language',
+    backToList: 'Back to list',
+    editCharacter: 'Edit {character}',
+    deleteCharacter: 'Delete {character}',
+    cancel: 'Cancel',
+    delete: 'Delete',
+    save: 'Save',
+    add: 'Add',
+    dots: 'Dots',
+    bar: 'Bar',
+    help: {
+      dragNDrop: 'Drag and drop at the handle to reorder',
+    },
+  },
+  base: {
+    max: 'Maximum',
+    current: 'Current',
+  },
+  character: {
+    name: 'Name',
+    hp: 'HP',
+    ac: 'Armor Class',
+    perception: 'Passive Perception',
+    changeHp: 'Change @:character.hp',
+    maxHp: '@:base.max @:character.hp',
+    currentHp: '@:base.current @:character.hp',
+  },
+  resource: {
+    name: 'Resource | Resources',
+    displayAs: 'Display as',
+    rechargeOn: 'Recharge on',
+    add: '@:app.add @.lower:resource.name',
+  },
+  consumer: {
+    name: 'Consumer',
+    add: '@:consumer.name @.lower:app.add',
+    usedResource: 'Used @:resource.name',
+    cost: 'Cost',
+  },
+  recharger: {
+    name: 'Recharger',
+    add: '@:recharger.name @.lower:app.add',
+    usedResource: 'Used @.lower:resource.name',
+    cost: 'Cost',
+    rechargedResource: 'Recharged @.lower:resource.name',
+    rechargeCount: 'Recharged amount',
+  },
+  rest: {
+    short: 'Short rest',
+    long: 'Long rest',
+  },
+  errors: {
+    consumer: {
+      notEnoughResources: 'You need to add at least one resource!',
+    },
+    recharger: {
+      notEnoughResources: 'You need to add at least two resources (one to recharge, one to use)!',
+    },
+  },
+  footer: {
+    reportIssue: 'Report an issue',
+    source: 'Source code',
+    imprint: 'Imprint',
+  },
+}

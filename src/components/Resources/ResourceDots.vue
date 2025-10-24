@@ -6,16 +6,12 @@ const { max, current, name } = defineProps<Partial<Resource>>();
 <template>
   <div class="resource">
     <div class="name">{{ name }}:</div>
-    <div
-      v-for="index in max"
-      :key="index"
-      :class="[
-        'dot',
-        {
-          filled: index > current!,
-        },
-      ]"
-    ></div>
+    <div v-for="index in max" :key="index" :class="[
+      'dot',
+      {
+        filled: index > current!,
+      },
+    ]"></div>
   </div>
 </template>
 <style lang="scss" scoped>

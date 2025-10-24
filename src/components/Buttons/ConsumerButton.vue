@@ -1,31 +1,26 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 import type { Consumer } from '@/interfaces/interfaces';
 import { useCharactersStore } from '@/stores/characters';
-import { ref } from 'vue';
 
 const charactersStore = useCharactersStore();
 
-const { characterName, consumer } = defineProps<{ characterName: string; consumer: Consumer }>();
-
 const displayPopup = ref(false);
+
+const { characterName, consumer } = defineProps<{ characterName: string; consumer: Consumer }>();
 </script>
 
 <template>
   <div class="consumer-wrapper">
-    <button
-      :disabled="!charactersStore.canConsumerBeUsed(characterName, consumer.name)"
+    <button :disabled="!charactersStore.canConsumerBeUsed(characterName, consumer.name)"
       @click.prevent="() => charactersStore.useConsumer(characterName, consumer.name)"
-      @mouseover="() => (displayPopup = true)"
-      @mouseout="() => (displayPopup = false)"
-    >
+      @mouseover="() => (displayPopup = true)" @mouseout="() => (displayPopup = false)">
       {{ consumer.name }}
     </button>
-    <div
-      class="hint"
-      :style="{
-        display: displayPopup ? 'block' : 'none',
-      }"
-    >
+    <div class="hint" :style="{
+      display: displayPopup ? 'block' : 'none',
+    }">
       Used: {{ consumer.resource }} <br />
       Cost: {{ consumer.cost }}
     </div>

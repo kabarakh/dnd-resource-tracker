@@ -1,0 +1,68 @@
+{
+  app: {
+    newCharacter: 'Neuer Character',
+    language: 'Sprache',
+    backToList: 'Zurück zur Liste',
+    editCharacter: '{character} editieren',
+    deleteCharacter: '{character} löschen',
+    cancel: 'Abbrechen',
+    delete: 'Löschen',
+    save: 'Speichern',
+    add: 'Hinzufügen',
+    dots: 'Punkte',
+    bar: 'Balken',
+    help: {
+      dragNDrop: 'Zum Umsortieren Drag & Drop am Griff',
+    },
+  },
+  base: {
+    max: 'Maximale',
+    current: 'Derzeitige',
+  },
+  character: {
+    name: 'Name',
+    hp: 'Lebenspunkte',
+    ac: 'Rüstungsklasse',
+    perception: 'Passive Wahrnehmung',
+    changeHp: '@:character.hp ändern',
+    maxHp: '@:base.max @:character.hp',
+    currentHp: '@:base.current @:character.hp',
+  },
+  resource: {
+    name: 'Resource',
+    displayAs: 'Anzeige als',
+    rechargeOn: 'Aufgefüllt bei',
+    add: '@:resource.name @.lower:app.add',
+  },
+  consumer: {
+    name: 'Verbraucher',
+    add: '@:consumer.name @.lower:app.add',
+    usedResource: 'Benötigte @:resource.name',
+    cost: 'Kosten',
+  },
+  recharger: {
+    name: 'Auffüller',
+    add: '@:recharger.name @.lower:app.add',
+    usedResource: 'Benötigte @:resource.name',
+    cost: 'Kosten',
+    rechargedResource: 'Aufgefüllte @:resource.name',
+    rechargeCount: 'Aufgefüllte Menge',
+  },
+  rest: {
+    short: 'Kurze Rast',
+    long: 'Lange Rast',
+  },
+  errors: {
+    consumer: {
+      notEnoughResources: 'Mindestens eine Resource wird benötigt!',
+    },
+    recharger: {
+      notEnoughResources: 'Mindestens zwei Resources werden benötigt (eine als Kosten, eine zum Auffüllen)!',
+    },
+  },
+  footer: {
+    reportIssue: 'Fehler melden',
+    source: 'Quellcode',
+    imprint: 'Impressum',
+  },
+}

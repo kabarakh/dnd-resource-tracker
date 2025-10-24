@@ -1,5 +1,6 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
+
 import type { Character, Resource } from '@/interfaces/interfaces';
 
 export const useCharactersStore = defineStore(
