@@ -1,18 +1,22 @@
 <script setup lang="ts">
-import { useCharactersStore } from '@/stores/characters';
-import type { Character } from '@/interfaces/interfaces';
 import { ref } from 'vue';
+import { useTitle } from '@vueuse/core';
+import { useCharactersStore } from '@/stores/characters';
+import { useI18n } from 'vue-i18n'
+
 import RechargerButton from '@/components/Buttons/RechargerButton.vue';
 import ConsumerButton from '@/components/Buttons/ConsumerButton.vue';
 import ResourceBar from '@/components/Resources/ResourceBar.vue';
 import ResourceDots from '@/components/Resources/ResourceDots.vue';
-import { useTitle } from '@vueuse/core';
+
+import type { Character } from '@/interfaces/interfaces';
 
 const charactersStore = useCharactersStore();
-const { character } = defineProps<{ character: Character }>();
-import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
+
 const hpChange = ref(0);
+
+const { character } = defineProps<{ character: Character }>();
 
 useTitle(character.name + ' - DnD Resource Tracker');
 </script>

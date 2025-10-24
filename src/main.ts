@@ -1,12 +1,20 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import { createI18n } from 'vue-i18n';
+import { forEach } from 'lodash';
 
 import App from './App.vue';
-import { createI18n } from 'vue-i18n';
 
-import en from './locale/en.json5';
-import de from './locale/de.json5';
+const locales = import.meta.glob('./locale/*.json5', { eager: true });
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const messages: Record<string, any> = {};
+forEach(locales, (content, identifier) => {
+  const filename = identifier.split('/').reverse()[0];
+  const langId = filename.split('.')[0];
+  messages[langId] = content;
+});
 
 const app = createApp(App);
 
@@ -16,9 +24,7 @@ pinia.use(piniaPluginPersistedstate);
 const i18n = createI18n({
   locale: localStorage.getItem('locale') || 'en',
   legacy: false,
-  messages: {
-    en, de
-  }
+  messages,
 });
 
 app.use(pinia);

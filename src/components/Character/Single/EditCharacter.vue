@@ -1,15 +1,20 @@
 <script setup lang="ts">
+import { useTitle } from '@vueuse/core';
+import { cloneDeep } from 'lodash';
+import { ref, watch } from 'vue';
+import { VueDraggable } from 'vue-draggable-plus';
+import { useI18n } from 'vue-i18n'
+
 import DragAndDropHandle from '@/components/Buttons/DragAndDropHandle.vue';
 import ResourceBar from '@/components/Resources/ResourceBar.vue';
 import ResourceDots from '@/components/Resources/ResourceDots.vue';
+
 import type { Character } from '@/interfaces/interfaces';
 import { useCharactersStore } from '@/stores/characters';
-import { useTitle } from '@vueuse/core';
-import { cloneDeep } from 'lodash';
-import { ref } from 'vue';
-import { VueDraggable } from 'vue-draggable-plus';
 
+const { t, locale } = useI18n()
 const charactersStore = useCharactersStore();
+
 const { characterFormData, originalCharacterName, resetCharacterFormData } = defineProps<{
   characterFormData: Partial<Character>;
   originalCharacterName: string;
@@ -17,6 +22,12 @@ const { characterFormData, originalCharacterName, resetCharacterFormData } = def
 }>();
 
 const localCharacterFormData = ref(cloneDeep(characterFormData));
+
+watch(locale, () => {
+  useTitle(t('app.editCharacter', { character: originalCharacterName }) + ' - DnD Resource Tracker');
+}, {
+  immediate: true
+})
 
 const saveCharData = () => {
   if (localCharacterFormData.value !== undefined) {
@@ -64,46 +75,47 @@ const deleteConsumer = (index: number) => {
 const deleteRecharger = (index: number) => {
   localCharacterFormData.value.specialRechargers!.splice(index, 1);
 };
-
-useTitle('Edit ' + originalCharacterName + ' - DnD Resource Tracker');
-
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
 </script>
 <template>
   <form @submit.prevent="saveCharData">
     <section>
-      <label>Name: <input type="text" v-model="localCharacterFormData.name" /></label>
-      <label>AC: <input type="number" v-model="localCharacterFormData.armorClass" /></label>
-      <label>Max HP: <input type="number" v-model="localCharacterFormData.maxHP" /></label>
-      <label>Current HP: <input type="number" v-model="localCharacterFormData.currentHP" /></label>
-      <label>Perception: <input type="number" v-model="localCharacterFormData.passivePerception" /></label>
+      <label>{{ t('character.name') }}: <input type="text" v-model="localCharacterFormData.name" /></label>
+      <label>{{ t('character.ac') }}: <input type="number" v-model="localCharacterFormData.armorClass" /></label>
+      <label>{{ t('character.maxHp') }}: <input type="number" v-model="localCharacterFormData.maxHP" /></label>
+      <label>{{ t('character.currentHp') }}: <input type="number" v-model="localCharacterFormData.currentHP" /></label>
+      <label>
+        {{ t('character.perception') }}:
+        <input type="number" v-model="localCharacterFormData.passivePerception" />
+      </label>
     </section>
     <section>
-      <div class="help-text">Drag and drop at the handle to reorder</div>
+      <div class="help-text">{{ t('app.help.dragNDrop') }}</div>
       <VueDraggable ref="resource-ref" v-model="localCharacterFormData.resources!" handle=".handle" :animation="150">
         <div class="resource-element" v-for="(resource, index) in localCharacterFormData.resources!" :key="index">
           <DragAndDropHandle />
           <div>
-            <label>Resource Name: <input type="text" v-model="resource.name" /></label>
-            <label>Max: <input type="number" min="1" v-model="resource.max" /></label>
-            <label>Current: <input type="number" min="0" :max="resource.max" v-model="resource.current" /></label>
-            <label
-              >Recharge on:
+            <label>{{ t('resource.name') }}: <input type="text" v-model="resource.name" /></label>
+            <label>{{ t('base.max') }}: <input type="number" min="1" v-model="resource.max" /></label>
+            <label>
+              {{ t('base.current') }}:
+              <input type="number" min="0" :max="resource.max" v-model="resource.current" />
+            </label>
+            <label>{{ t('resource.rechargeOn') }}:
               <select v-model="resource.rechargeOnRest">
-                <option value="short">Short Rest</option>
-                <option value="long">Long Rest</option>
+                <option value="short">{{ t('rest.short') }}</option>
+                <option value="long">{{ t('rest.long') }}</option>
               </select>
             </label>
-            <label
-              >Display as:
+            <label>{{ t('resource.displayAs') }}:
               <select v-model="resource.display">
-                <option value="dots">Dots</option>
-                <option value="bar">Bar</option>
+                <option value="dots">{{ t('app.dots') }}</option>
+                <option value="bar">{{ t('app.bar') }}</option>
               </select>
             </label>
             <div>
-              <button @click.prevent="() => deleteResource(index)">Delete</button>
+              <button @click.prevent="() => deleteResource(index)">
+                {{ t('app.delete') }}
+              </button>
             </div>
           </div>
           <div>
@@ -116,97 +128,83 @@ const { t } = useI18n()
           </div>
         </div>
       </VueDraggable>
-      <button @click.prevent="() => addResource()">Add resource</button>
+      <button @click.prevent="() => addResource()">{{ t('resource.add') }}</button>
     </section>
     <section>
-      <div class="help-text">Drag and drop at the handle to reorder</div>
+      <div class="help-text">{{ t('app.help.dragNDrop') }}</div>
       <VueDraggable ref="consumer-ref" v-model="localCharacterFormData.consumers!" :animation="150" handle=".handle">
         <div class="resource-element" v-for="(consumer, index) in localCharacterFormData.consumers!" :key="index">
           <DragAndDropHandle />
           <div>
-            <label>Consumer Name: <input type="text" v-model="consumer.name" /></label>
-            <label
-              >Used resource:
+            <label>{{ t('consumer.name') }}: <input type="text" v-model="consumer.name" /></label>
+            <label>{{ t('consumer.usedResource') }}:
               <select v-model="consumer.resource">
-                <option
-                  v-for="(resource, index) in localCharacterFormData.resources!"
-                  :value="resource.name"
-                  :key="index"
-                >
+                <option v-for="(resource, index) in localCharacterFormData.resources!" :value="resource.name"
+                  :key="index">
                   {{ resource.name }}
                 </option>
               </select>
             </label>
-            <label>Cost: <input type="number" min="1" v-model="consumer.cost" /></label>
+            <label>{{ t('consumer.cost') }}: <input type="number" min="1" v-model="consumer.cost" /></label>
             <div>
-              <button @click.prevent="() => deleteConsumer(index)">Delete</button>
+              <button @click.prevent="() => deleteConsumer(index)">
+                {{ t('app.delete') }}
+              </button>
             </div>
           </div>
         </div>
       </VueDraggable>
       <button @click.prevent="() => addConsumer()" v-if="localCharacterFormData.resources!.length > 0">
-        Add consumer
+        {{ t('consumer.add') }}
       </button>
       <template v-else>
-        <div class="error-text">You need to add at least one resource!</div>
+        <div class="error-text">{{ t('errors.consumer.notEnoughResources') }}</div>
       </template>
     </section>
     <section>
-      <div class="help-text">Drag and drop at the handle to reorder</div>
-      <VueDraggable
-        ref="recharger-ref"
-        v-model="localCharacterFormData.specialRechargers!"
-        :animation="150"
-        handle=".handle"
-      >
-        <div
-          class="resource-element"
-          v-for="(recharger, index) in localCharacterFormData.specialRechargers!"
-          :key="index"
-        >
+      <div class="help-text">{{ t('app.help.dragNDrop') }}</div>
+      <VueDraggable ref="recharger-ref" v-model="localCharacterFormData.specialRechargers!" :animation="150"
+        handle=".handle">
+        <div class="resource-element" v-for="(recharger, index) in localCharacterFormData.specialRechargers!"
+          :key="index">
           <DragAndDropHandle />
           <div>
-            <label>Recharger Name: <input type="text" v-model="recharger.name" /></label>
-            <label
-              >Used resource:
+            <label>{{ t('recharger.name') }}: <input type="text" v-model="recharger.name" /></label>
+            <label>{{ t('recharger.usedResource') }}:
               <select v-model="recharger.resourceUsed">
-                <option
-                  v-for="(resource, index) in localCharacterFormData.resources!"
-                  :value="resource.name"
-                  :key="index"
-                >
+                <option v-for="(resource, index) in localCharacterFormData.resources!" :value="resource.name"
+                  :key="index">
                   {{ resource.name }}
                 </option>
               </select>
             </label>
-            <label>Cost: <input type="number" min="0" v-model="recharger.usedCount" /></label>
-            <label
-              >Recharged resource:
+            <label>{{ t('recharger.cost') }}: <input type="number" min="0" v-model="recharger.usedCount" /></label>
+            <label>{{ t('recharger.rechargedResource') }}:
               <select v-model="recharger.resourceRecharged">
-                <option
-                  v-for="(resource, index) in localCharacterFormData.resources!"
-                  :value="resource.name"
-                  :key="index"
-                >
+                <option v-for="(resource, index) in localCharacterFormData.resources!" :value="resource.name"
+                  :key="index">
                   {{ resource.name }}
                 </option>
               </select>
             </label>
-            <label>Amount recharged: <input type="number" min="1" v-model="recharger.rechargeCount" /></label>
+            <label>{{ t('recharger.rechargeCount') }}: <input type="number" min="1"
+                v-model="recharger.rechargeCount" /></label>
             <div>
-              <button @click.prevent="() => deleteRecharger(index)">Delete</button>
+              <button @click.prevent="() => deleteRecharger(index)">
+                {{ t('app.delete') }}
+              </button>
             </div>
           </div>
         </div>
       </VueDraggable>
       <button @click.prevent="() => addRecharger()" v-if="localCharacterFormData.resources!.length > 1">
-        Add recharger
+        {{ t('recharger.add') }}
       </button>
       <template v-else>
-        <div class="error-text">You need to add at least two resources (one to recharge, one to use)!</div>
+        <div class="error-text">{{ t('errors.recharger.notEnoughResources') }}</div>
       </template>
     </section>
-    <button type="submit">Save</button>
+    <button type="submit">{{ t('app.save') }}</button>
   </form>
 </template>
 
@@ -221,7 +219,7 @@ label {
   flex-direction: row;
   align-items: center;
 
-  > * {
+  >* {
     margin-right: 1rem;
   }
 }

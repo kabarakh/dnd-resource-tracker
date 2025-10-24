@@ -7,12 +7,9 @@ const { max, current, name } = defineProps<Partial<Resource>>();
 <template>
   {{ name }}: {{ current }}/{{ max }} <br />
   <div class="bar">
-    <span
-      class="current"
-      :style="{
-        width: (current! / max!) * 100 + '%',
-      }"
-    ></span>
+    <span class="current" :style="{
+      width: (current! / max!) * 100 + '%',
+    }"></span>
   </div>
 </template>
 
