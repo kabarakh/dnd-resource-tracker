@@ -19,6 +19,12 @@
     max: 'Maximale',
     current: 'Derzeitige',
   },
+  help: {
+    selectCharacter: 'Wähle einen Charakter aus, um seine Resourcen, Auffüller und Verbraucher zu sehen und zu editieren.',
+    explanation: 'Eine @:resource.name ist ein Effekt, welcher für eine bestimmte Anzahl pro langer oder kurzer Rast \
+    verwendet werden kann. Ein @:consumer.name ist eine Fähigkeit, welche eine @:resource.name verbraucht, und ein @:recharger.name \
+    ist eine Fähigkeit, welche eine @:resource.name auffüllt und dabei eine andere benötigt.'
+  },
   character: {
     name: 'Name',
     hp: 'Lebenspunkte',
@@ -59,6 +65,9 @@
     recharger: {
       notEnoughResources: 'Mindestens zwei Resources werden benötigt (eine als Kosten, eine zum Auffüllen)!',
     },
+    resource: {
+      inUse: '@:resource.name kann nicht gelöscht werden, da mindestens ein @:recharger.name oder @:consumer.name darauf zugreifen!'
+    }
   },
   footer: {
     reportIssue: 'Fehler melden',

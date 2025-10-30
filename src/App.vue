@@ -58,6 +58,8 @@ useTitle('DnD Resource Tracker');
   </header>
   <main>
     <template v-if="selectedChar === undefined">
+      <p>{{ t('help.selectCharacter') }}</p>
+      <p>{{ t('help.explanation') }}</p>
       <div v-for="character in characters" :key="character.name">
         <button @click.prevent="() => (selectedCharName = character.name)">{{ character.name }}</button>
       </div>

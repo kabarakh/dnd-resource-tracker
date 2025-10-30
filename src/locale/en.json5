@@ -15,6 +15,11 @@
       dragNDrop: 'Drag and drop at the handle to reorder',
     },
   },
+  help: {
+    selectCharacter: 'Select a character to display and edit their resources, consumers and spenders.',
+    explanation: 'A @.lower:resource.name is any effect your character can use a number of times per short or long rest, a @.lower:consumer.name is a\
+        feature using those resources, and @.lower:recharger.name are features using one @.lower:resource.name to replenish another one.'
+  },
   base: {
     max: 'Maximum',
     current: 'Current',
@@ -36,13 +41,13 @@
   },
   consumer: {
     name: 'Consumer',
-    add: '@:consumer.name @.lower:app.add',
+    add: '@:app.add @.lower:consumer.name',
     usedResource: 'Used @:resource.name',
     cost: 'Cost',
   },
   recharger: {
     name: 'Recharger',
-    add: '@:recharger.name @.lower:app.add',
+    add: '@:app.add @.lower:recharger.name',
     usedResource: 'Used @.lower:resource.name',
     cost: 'Cost',
     rechargedResource: 'Recharged @.lower:resource.name',
@@ -59,6 +64,9 @@
     recharger: {
       notEnoughResources: 'You need to add at least two resources (one to recharge, one to use)!',
     },
+    resource: {
+      inUse: '@:resource.name can\'t be deleted because at least one @.lower:consumer.name or @.lower:recharger.name refer to it!'
+    }
   },
   footer: {
     reportIssue: 'Report an issue',
