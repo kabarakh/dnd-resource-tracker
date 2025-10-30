@@ -75,6 +75,15 @@ const deleteConsumer = (index: number) => {
 const deleteRecharger = (index: number) => {
   localCharacterFormData.value.specialRechargers!.splice(index, 1);
 };
+
+const canResourceBeDeleted = (resourceName: string): boolean => {
+  const rechargersUsingResource = localCharacterFormData.value.specialRechargers?.find((recharger) => { return recharger.resourceUsed === resourceName });
+  const rechargersRecharginingResource = localCharacterFormData.value.specialRechargers?.find((recharger) => { return recharger.resourceRecharged === resourceName });
+  const consumerUsingResource = localCharacterFormData.value.consumers?.find((consumer) => { return consumer.resource === resourceName });
+
+  return rechargersRecharginingResource === undefined && rechargersUsingResource === undefined && consumerUsingResource === undefined;
+}
+
 </script>
 <template>
   <form @submit.prevent="saveCharData">
@@ -113,9 +122,12 @@ const deleteRecharger = (index: number) => {
               </select>
             </label>
             <div>
-              <button @click.prevent="() => deleteResource(index)">
+              <button :disabled="!canResourceBeDeleted(resource.name)" @click.prevent="() => deleteResource(index)">
                 {{ t('app.delete') }}
               </button>
+              <div class="error-text" v-if="!canResourceBeDeleted(resource.name)">
+                {{ t('errors.resource.inUse') }}
+              </div>
             </div>
           </div>
           <div>

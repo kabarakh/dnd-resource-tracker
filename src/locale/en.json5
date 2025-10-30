@@ -59,6 +59,9 @@
     recharger: {
       notEnoughResources: 'You need to add at least two resources (one to recharge, one to use)!',
     },
+    resource: {
+      inUse: '@:resource.name can\'t be deleted because at least one @.lower:consumer.name or @.lower:recharger.name refer to it!'
+    }
   },
   footer: {
     reportIssue: 'Report an issue',

@@ -59,6 +59,9 @@
     recharger: {
       notEnoughResources: 'Mindestens zwei Resources werden benötigt (eine als Kosten, eine zum Auffüllen)!',
     },
+    resource: {
+      inUse: '@:resource.name kann nicht gelöscht werden, da mindestens ein @:recharger.name oder @:consumer.name darauf zugreifen!'
+    }
   },
   footer: {
     reportIssue: 'Fehler melden',
