@@ -15,6 +15,11 @@
       dragNDrop: 'Drag and drop at the handle to reorder',
     },
   },
+  help: {
+    selectCharacter: 'Select a character to display and edit their resources, consumers and spenders.',
+    explanation: 'A @.lower:resource.name is any effect your character can use a number of times per short or long rest, a @.lower:consumer.name is a\
+        feature using those resources, and @.lower:recharger.name are features using one @.lower:resource.name to replenish another one.'
+  },
   base: {
     max: 'Maximum',
     current: 'Current',
