@@ -36,13 +36,13 @@
   },
   consumer: {
     name: 'Consumer',
-    add: '@:consumer.name @.lower:app.add',
+    add: '@:app.add @.lower:consumer.name',
     usedResource: 'Used @:resource.name',
     cost: 'Cost',
   },
   recharger: {
     name: 'Recharger',
-    add: '@:recharger.name @.lower:app.add',
+    add: '@:app.add @.lower:recharger.name',
     usedResource: 'Used @.lower:resource.name',
     cost: 'Cost',
     rechargedResource: 'Recharged @.lower:resource.name',
