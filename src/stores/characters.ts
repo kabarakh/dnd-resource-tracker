@@ -2,11 +2,13 @@ import { ref } from 'vue';
 import { defineStore } from 'pinia';
 
 import type { Character, Resource } from '@/interfaces/interfaces';
+import { CURRENT_VERSION, migrateStore } from '@/stores/storeUpdater.ts';
 
 export const useCharactersStore = defineStore(
   'characters',
   () => {
     const characters = ref<Record<string, Character>>({});
+    const version = ref(CURRENT_VERSION)
 
     const changeCurrentHp = (charName: string, hpChange: number) => {
       const currentChar = characters.value[charName]!;
@@ -189,6 +191,7 @@ export const useCharactersStore = defineStore(
     };
 
     return {
+      version,
       characters,
       changeCurrentHp,
       addOrEditCharacter,
@@ -201,5 +204,11 @@ export const useCharactersStore = defineStore(
       canSpecialRechargerBeUsed,
     };
   },
-  { persist: true },
+  {
+    persist: {
+      afterHydrate: ({store}) => {
+        store.$patch(migrateStore(store));
+      },
+    },
+  },
 );
